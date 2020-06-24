@@ -1,9 +1,9 @@
-import {Kata, Observer} from './Kata'
+import {Janken, Observer} from './Janken'
 
 class SpyObserver implements Observer {
   p1Wins_wasCalled = false
   p2Wins_wasCalled = false
-  draw_wasCalled = false
+  p1p2Tie_wasCalled = false
 
   p1Wins(): void {
     this.p1Wins_wasCalled = true
@@ -13,18 +13,18 @@ class SpyObserver implements Observer {
     this.p2Wins_wasCalled = true
   }
 
-  draw(): void {
-    this.draw_wasCalled = true
+  p1p2Tie(): void {
+    this.p1p2Tie_wasCalled = true
   }
 
   reset(): void {
     this.p1Wins_wasCalled = false
     this.p2Wins_wasCalled = false
-    this.draw_wasCalled = false
+    this.p1p2Tie_wasCalled = false
   }
 }
 
-describe('Kata', () => {
+describe('Janken', () => {
   const observer = new SpyObserver()
 
   beforeEach(() => {
@@ -34,77 +34,77 @@ describe('Kata', () => {
   function verifyP1DidWin() {
     expect(observer.p1Wins_wasCalled).toBe(true)
     expect(observer.p2Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    expect(observer.p1p2Tie_wasCalled).toBe(false)
   }
 
   test('rock vs scissors', () => {
-    new Kata().someMethod('rock', 'scissors', observer)
+    new Janken().judge('rock', 'scissors', observer)
 
     verifyP1DidWin()
   })
 
   test('scissors vs rock', () => {
-    new Kata().someMethod('scissors', 'rock', observer)
+    new Janken().judge('scissors', 'rock', observer)
 
     expect(observer.p2Wins_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    expect(observer.p1p2Tie_wasCalled).toBe(false)
   })
 
   test('scissors vs paper', () => {
-    new Kata().someMethod('scissors', 'paper', observer)
+    new Janken().judge('scissors', 'paper', observer)
 
     verifyP1DidWin()
   })
 
   test('scissors vs paper', () => {
-    new Kata().someMethod('scissors', 'paper', observer)
+    new Janken().judge('scissors', 'paper', observer)
 
     verifyP1DidWin()
   })
 
   test('paper vs scissors', () => {
-    new Kata().someMethod('paper', 'scissors', observer)
+    new Janken().judge('paper', 'scissors', observer)
 
     expect(observer.p2Wins_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    expect(observer.p1p2Tie_wasCalled).toBe(false)
   })
 
   test('paper vs rock', () => {
-    new Kata().someMethod('paper', 'rock', observer)
+    new Janken().judge('paper', 'rock', observer)
 
     verifyP1DidWin()
   })
 
   test('rock vs paper', () => {
-    new Kata().someMethod('rock', 'paper', observer)
+    new Janken().judge('rock', 'paper', observer)
 
     expect(observer.p2Wins_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    expect(observer.p1p2Tie_wasCalled).toBe(false)
   })
 
   test('rock vs rock', () => {
-    new Kata().someMethod('rock', 'rock', observer)
+    new Janken().judge('rock', 'rock', observer)
 
-    expect(observer.draw_wasCalled).toBe(true)
+    expect(observer.p1p2Tie_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
     expect(observer.p2Wins_wasCalled).toBe(false)
   })
 
   test('paper vs paper', () => {
-    new Kata().someMethod('paper', 'paper', observer)
+    new Janken().judge('paper', 'paper', observer)
 
-    expect(observer.draw_wasCalled).toBe(true)
+    expect(observer.p1p2Tie_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
     expect(observer.p2Wins_wasCalled).toBe(false)
   })
 
   test('scissors vs scissors', () => {
-    new Kata().someMethod('scissors', 'scissors', observer)
+    new Janken().judge('scissors', 'scissors', observer)
 
-    expect(observer.draw_wasCalled).toBe(true)
+    expect(observer.p1p2Tie_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
     expect(observer.p2Wins_wasCalled).toBe(false)
   })
