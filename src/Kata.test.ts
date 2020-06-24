@@ -25,6 +25,7 @@ describe('Kata', () => {
 
     expect(observer.p1Wins_wasCalled).toBe(true)
     expect(observer.p2Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('scissors vs rock', () => {
@@ -33,6 +34,7 @@ describe('Kata', () => {
 
     expect(observer.p2Wins_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('scissors vs paper', () => {
@@ -41,6 +43,7 @@ describe('Kata', () => {
 
     expect(observer.p1Wins_wasCalled).toBe(true)
     expect(observer.p2Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('scissors vs paper', () => {
@@ -49,6 +52,7 @@ describe('Kata', () => {
 
     expect(observer.p1Wins_wasCalled).toBe(true)
     expect(observer.p2Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('paper vs scissors', () => {
@@ -57,6 +61,7 @@ describe('Kata', () => {
 
     expect(observer.p2Wins_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('paper vs rock', () => {
@@ -65,6 +70,7 @@ describe('Kata', () => {
 
     expect(observer.p1Wins_wasCalled).toBe(true)
     expect(observer.p2Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('rock vs paper', () => {
@@ -73,6 +79,7 @@ describe('Kata', () => {
 
     expect(observer.p2Wins_wasCalled).toBe(true)
     expect(observer.p1Wins_wasCalled).toBe(false)
+    expect(observer.draw_wasCalled).toBe(false)
   })
 
   test('rock vs rock', () => {
