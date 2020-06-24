@@ -6,7 +6,11 @@ export interface Observer {
   p1p2Tie(): void
 }
 
-export class Janken {
+export interface Judger {
+  judge(p1: string, p2: string, observer: Observer): void
+}
+
+export class Janken implements Judger{
   judge(p1: string, p2: string, observer: Observer) {
     if (p1 === p2) {
       observer.p1p2Tie()
