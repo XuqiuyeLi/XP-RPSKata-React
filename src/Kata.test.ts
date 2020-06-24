@@ -16,20 +16,34 @@ class SpyObserver implements Observer {
   draw(): void {
     this.draw_wasCalled = true
   }
+
+  reset(): void {
+    this.p1Wins_wasCalled = false
+    this.p2Wins_wasCalled = false
+    this.draw_wasCalled = false
+  }
 }
 
 describe('Kata', () => {
-  test('rock vs scissors', () => {
-    const observer = new SpyObserver()
-    new Kata().someMethod('rock', 'scissors', observer)
+  const observer = new SpyObserver()
 
+  beforeEach(() => {
+    observer.reset()
+  })
+
+  function verifyP1DidWin() {
     expect(observer.p1Wins_wasCalled).toBe(true)
     expect(observer.p2Wins_wasCalled).toBe(false)
     expect(observer.draw_wasCalled).toBe(false)
+  }
+
+  test('rock vs scissors', () => {
+    new Kata().someMethod('rock', 'scissors', observer)
+
+    verifyP1DidWin()
   })
 
   test('scissors vs rock', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('scissors', 'rock', observer)
 
     expect(observer.p2Wins_wasCalled).toBe(true)
@@ -38,25 +52,18 @@ describe('Kata', () => {
   })
 
   test('scissors vs paper', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('scissors', 'paper', observer)
 
-    expect(observer.p1Wins_wasCalled).toBe(true)
-    expect(observer.p2Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    verifyP1DidWin()
   })
 
   test('scissors vs paper', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('scissors', 'paper', observer)
 
-    expect(observer.p1Wins_wasCalled).toBe(true)
-    expect(observer.p2Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    verifyP1DidWin()
   })
 
   test('paper vs scissors', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('paper', 'scissors', observer)
 
     expect(observer.p2Wins_wasCalled).toBe(true)
@@ -65,16 +72,12 @@ describe('Kata', () => {
   })
 
   test('paper vs rock', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('paper', 'rock', observer)
 
-    expect(observer.p1Wins_wasCalled).toBe(true)
-    expect(observer.p2Wins_wasCalled).toBe(false)
-    expect(observer.draw_wasCalled).toBe(false)
+    verifyP1DidWin()
   })
 
   test('rock vs paper', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('rock', 'paper', observer)
 
     expect(observer.p2Wins_wasCalled).toBe(true)
@@ -83,7 +86,6 @@ describe('Kata', () => {
   })
 
   test('rock vs rock', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('rock', 'rock', observer)
 
     expect(observer.draw_wasCalled).toBe(true)
@@ -92,7 +94,6 @@ describe('Kata', () => {
   })
 
   test('paper vs paper', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('paper', 'paper', observer)
 
     expect(observer.draw_wasCalled).toBe(true)
@@ -101,7 +102,6 @@ describe('Kata', () => {
   })
 
   test('scissors vs scissors', () => {
-    const observer = new SpyObserver()
     new Kata().someMethod('scissors', 'scissors', observer)
 
     expect(observer.draw_wasCalled).toBe(true)
