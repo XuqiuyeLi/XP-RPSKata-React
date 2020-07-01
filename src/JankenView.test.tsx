@@ -1,7 +1,7 @@
 import React from 'react'
 import {render} from '@testing-library/react'
 import JankenView from './JankenView'
-import {HistoryRepo, Master, Observer} from './JunkenMaster/JankenMaster'
+import {HistoryRepo, Master, Observer, Round} from './JunkenMaster/JankenMaster'
 import userEvent from '@testing-library/user-event'
 
 class StubP1WinsJanken implements Master {
@@ -52,6 +52,19 @@ class EmptyHistoryStubHistoryLoader implements Master {
   }
 
   judge(p1: string, p2: string, observer: Observer): void {
+  }
+}
+
+class FullHistoryStubHistoryLoader implements Master {
+  judge(p1: string, p2: string, observer: Observer): void {
+  }
+
+  loadHistory(observer: Observer, repo: HistoryRepo): void {
+    observer.displayHistory([
+        new Round('rock', 'scissors', 'p1Wins'),
+        new Round('paper', 'paper', 'p1p2Tie')
+      ]
+    )
   }
 }
 
@@ -137,20 +150,25 @@ describe('JankenView', () => {
     })
 
     test('Historyがある場合、Roundsの内容を表示する', () => {
-      //Arrange
+      const jankenMaster = new FullHistoryStubHistoryLoader()
 
 
-      // Action
+      const jankenView = render(<JankenView jankenMaster={jankenMaster}/>)
 
 
-      // Assert
-      // expect(jankenView.queryByText('Rock Scissors p1Wins')).toBeInTheDocument()
-      // expect(jankenView.queryByText('Paper Paper p1p2Tiw')).toBeInTheDocument()
+      expect(jankenView.queryByText('rock scissors p1Wins')).toBeInTheDocument()
+      expect(jankenView.queryByText('paper paper p1p2Tie')).toBeInTheDocument()
     })
   })
 })
 　
-// JankenView　　　x
-// JankenMaster  test済み
-// HistoryRepo　　x
+// JankenView with StubMaster, SpyMaster　　 2
+// JankenMaster with StubRepo  1
+// LocalHistoryRepo　3
 
+// JankenView with JankenMaster with StubRepo           (integration)
+// JankenMaster with LocalHistoryRepo                   (integration)
+// JankenView with JankenMaster with LocalHistoryRepo   E2E (End to end)
+
+// FakeHistoryRepo passes HistoryRepoTest
+// RealHistoryRepo passes HistoryRepoTest

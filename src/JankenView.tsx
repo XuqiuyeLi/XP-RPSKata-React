@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent} from 'react';
 import './App.css';
-import {Master, Observer, Round} from './JunkenMaster/JankenMaster'
+import {HistoryRepo, Master, Observer, Round} from './JunkenMaster/JankenMaster'
 
 type JankenViewProps = {
   jankenMaster: Master
@@ -12,6 +12,19 @@ type JankenViewState = {
   result: string,
   historyMessage: string,
   history: Round[]
+}
+
+class LocalHistoryRepo implements HistoryRepo {
+  getHistory(): Round[] {
+    return [];
+  }
+
+  isEmpty(): boolean {
+    return false;
+  }
+
+  save(): void {
+  }
 }
 
 class JankenView extends React.Component<JankenViewProps, JankenViewState> implements Observer {
@@ -27,10 +40,10 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
   }
 
   componentDidMount(): void {
-    // アプリロード時にデータをロードする
+    this.props.jankenMaster.loadHistory(this, new LocalHistoryRepo())
   }
 
-  handleJakenGameSubmit(event: FormEvent<HTMLFormElement>) {
+  handleJankenGameSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     this.props.jankenMaster.judge(this.state.p1, this.state.p2, this)
   }
@@ -51,13 +64,14 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
   }
 
   displayHistoryEmpty(): void {
+    this.setState({historyMessage: 'No History'})
   }
 
   render() {
     return (
       <div className="App">
         <h1>Janken Game</h1>
-        <form onSubmit={(event) => this.handleJakenGameSubmit(event)}>
+        <form onSubmit={(event) => this.handleJankenGameSubmit(event)}>
           <label>
             Player 1:
             <input type="text" onChange={(event => this.handleP1Input(event))}/>
@@ -70,6 +84,11 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
         </form>
 
         <div>{this.state.result}</div>
+
+        <h1>History</h1>
+        <div>
+          <div>{this.state.historyMessage}</div>
+        </div>
       </div>
     )
   }
