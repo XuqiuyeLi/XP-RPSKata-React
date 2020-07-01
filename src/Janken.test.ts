@@ -4,6 +4,8 @@ class SpyObserver implements Observer {
   p1Wins_wasCalled = false
   p2Wins_wasCalled = false
   p1p2Tie_wasCalled = false
+  displayHistoryEmpty_wasCalled = false
+  displayHistory_wasCalledWithHistory: any = false
 
   p1DidWin(): void {
     this.p1Wins_wasCalled = true
@@ -17,10 +19,20 @@ class SpyObserver implements Observer {
     this.p1p2Tie_wasCalled = true
   }
 
+  displayHistory(history: any): void {
+    this.displayHistory_wasCalledWithHistory = history
+  }
+
+  displayHistoryEmpty(): void {
+    this.displayHistoryEmpty_wasCalled = true
+  }
+
   reset(): void {
     this.p1Wins_wasCalled = false
     this.p2Wins_wasCalled = false
     this.p1p2Tie_wasCalled = false
+    this.displayHistoryEmpty_wasCalled = false
+    this.displayHistory_wasCalledWithHistory = false
   }
 }
 
@@ -115,7 +127,30 @@ describe('Janken', () => {
   describe('history', () => {
     class EmptyStubHistoryRepo implements HistoryRepo {
       isEmpty(): boolean {
-        return false
+        return true
+      }
+
+      getHistory(): any {
+        return [];
+      }
+
+      save(): void {
+      }
+    }
+
+    class FullStubHistoryRepo implements HistoryRepo {
+      isEmpty(): boolean {
+        return false;
+      }
+
+      getHistory(): any {
+        return [
+          {p1: 'rock', p2: 'scissors', result: 'p1Wins'},
+          {p1: 'rock', p2: 'rock', result: 'p1P2Tie'}
+        ]
+      }
+
+      save(): void {
       }
     }
 
@@ -129,16 +164,21 @@ describe('Janken', () => {
 
 
       expect(observer.displayHistoryEmpty_wasCalled).toBe(true)
+      expect(observer.displayHistory_wasCalledWithHistory).toBe(false)
     })
 
     test('if games have been played', () => {
-      const repo = // stub with [{p1: 'rock', p2: 'paper', result: 'scissors'}]
+      const repo = new FullStubHistoryRepo()
 
 
       jankenJudger.loadHistory(observer, repo)
 
 
-      expect(observer.displayHistory(// same history as stub))
+      expect(observer.displayHistory_wasCalledWithHistory).toEqual([
+        {p1: 'rock', p2: 'scissors', result: 'p1Wins'},
+        {p1: 'rock', p2: 'rock', result: 'p1P2Tie'}
+      ])
+      expect(observer.displayHistoryEmpty_wasCalled).toBe(false)
     })
   })
 })

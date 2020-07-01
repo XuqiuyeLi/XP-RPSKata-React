@@ -4,6 +4,10 @@ export interface Observer {
   p2Wins(): void
 
   p1p2Tie(): void
+
+  displayHistoryEmpty(): void
+
+  displayHistory(history: any): void
 }
 
 export interface Judger {
@@ -12,6 +16,9 @@ export interface Judger {
 
 export interface HistoryRepo {
   isEmpty(): boolean
+
+  getHistory(): any
+  save(): void
 }
 
 export class JankenJudger implements Judger{
@@ -31,6 +38,11 @@ export class JankenJudger implements Judger{
   }
 
   loadHistory(observer: Observer, repo: HistoryRepo) {
-
+    if (repo.isEmpty()) {
+      observer.displayHistoryEmpty()
+    } else {
+      const history = repo.getHistory()
+      observer.displayHistory(history)
+    }
   }
 }
