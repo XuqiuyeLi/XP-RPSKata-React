@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 
 class StubP1WinsJanken implements Judger {
   judge(p1: string, p2: string, observer: Observer): void {
-    observer.p1Wins()
+    observer.p1DidWin()
   }
 }
 

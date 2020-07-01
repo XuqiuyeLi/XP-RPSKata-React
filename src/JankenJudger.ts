@@ -1,5 +1,5 @@
 export interface Observer {
-  p1Wins(): void
+  p1DidWin(): void
 
   p2Wins(): void
 
@@ -10,6 +10,10 @@ export interface Judger {
   judge(p1: string, p2: string, observer: Observer): void
 }
 
+export interface HistoryRepo {
+  isEmpty(): boolean
+}
+
 export class JankenJudger implements Judger{
   judge(p1: string, p2: string, observer: Observer) {
     if (p1 === p2) {
@@ -17,12 +21,16 @@ export class JankenJudger implements Judger{
     } else if (p1 === 'rock' && p2 === 'scissors' ||
       p1 === 'scissors' && p2 === 'paper' ||
       p1 === 'paper' && p2 === 'rock') {
-      observer.p1Wins()
+      observer.p1DidWin()
     } else if (p1 === 'scissors' ||
       p1 === 'paper' && p2 === 'scissors' ||
       p1 === 'rock' && p2 === 'paper'
     ) {
       observer.p2Wins()
     }
+  }
+
+  loadHistory(observer: Observer, repo: HistoryRepo) {
+
   }
 }

@@ -27,7 +27,7 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
     this.props.jankenJudger.judge(this.state.p1, this.state.p2, this)
   }
 
-  p1Wins(): void {
+  p1DidWin(): void {
     this.setState({result: 'Player 1 Wins!'})
   }
 
