@@ -1,4 +1,4 @@
-import {HistoryRepo, JankenJudger, Observer, Round} from './JankenJudger'
+import {HistoryRepo, JankenMaster, Observer, Round} from './JankenMaster'
 
 class SpyObserver implements Observer {
   p1Wins_wasCalled = false
@@ -52,13 +52,13 @@ describe('Janken', () => {
     }
 
     test('rock vs scissors', () => {
-      new JankenJudger().judge('rock', 'scissors', observer)
+      new JankenMaster().judge('rock', 'scissors', observer)
 
       verifyP1DidWin()
     })
 
     test('scissors vs rock', () => {
-      new JankenJudger().judge('scissors', 'rock', observer)
+      new JankenMaster().judge('scissors', 'rock', observer)
 
       expect(observer.p2Wins_wasCalled).toBe(true)
       expect(observer.p1Wins_wasCalled).toBe(false)
@@ -66,19 +66,19 @@ describe('Janken', () => {
     })
 
     test('scissors vs paper', () => {
-      new JankenJudger().judge('scissors', 'paper', observer)
+      new JankenMaster().judge('scissors', 'paper', observer)
 
       verifyP1DidWin()
     })
 
     test('scissors vs paper', () => {
-      new JankenJudger().judge('scissors', 'paper', observer)
+      new JankenMaster().judge('scissors', 'paper', observer)
 
       verifyP1DidWin()
     })
 
     test('paper vs scissors', () => {
-      new JankenJudger().judge('paper', 'scissors', observer)
+      new JankenMaster().judge('paper', 'scissors', observer)
 
       expect(observer.p2Wins_wasCalled).toBe(true)
       expect(observer.p1Wins_wasCalled).toBe(false)
@@ -86,13 +86,13 @@ describe('Janken', () => {
     })
 
     test('paper vs rock', () => {
-      new JankenJudger().judge('paper', 'rock', observer)
+      new JankenMaster().judge('paper', 'rock', observer)
 
       verifyP1DidWin()
     })
 
     test('rock vs paper', () => {
-      new JankenJudger().judge('rock', 'paper', observer)
+      new JankenMaster().judge('rock', 'paper', observer)
 
       expect(observer.p2Wins_wasCalled).toBe(true)
       expect(observer.p1Wins_wasCalled).toBe(false)
@@ -100,7 +100,7 @@ describe('Janken', () => {
     })
 
     test('rock vs rock', () => {
-      new JankenJudger().judge('rock', 'rock', observer)
+      new JankenMaster().judge('rock', 'rock', observer)
 
       expect(observer.p1p2Tie_wasCalled).toBe(true)
       expect(observer.p1Wins_wasCalled).toBe(false)
@@ -108,7 +108,7 @@ describe('Janken', () => {
     })
 
     test('paper vs paper', () => {
-      new JankenJudger().judge('paper', 'paper', observer)
+      new JankenMaster().judge('paper', 'paper', observer)
 
       expect(observer.p1p2Tie_wasCalled).toBe(true)
       expect(observer.p1Wins_wasCalled).toBe(false)
@@ -116,7 +116,7 @@ describe('Janken', () => {
     })
 
     test('scissors vs scissors', () => {
-      new JankenJudger().judge('scissors', 'scissors', observer)
+      new JankenMaster().judge('scissors', 'scissors', observer)
 
       expect(observer.p1p2Tie_wasCalled).toBe(true)
       expect(observer.p1Wins_wasCalled).toBe(false)
@@ -154,7 +154,7 @@ describe('Janken', () => {
       }
     }
 
-    const jankenJudger = new JankenJudger()
+    const jankenJudger = new JankenMaster()
 
     test('if no one has played', () => {
       const repo = new EmptyStubHistoryRepo()

@@ -1,7 +1,7 @@
 import React from 'react'
 import {render} from '@testing-library/react'
 import JankenView from './JankenView'
-import {Judger, Observer} from './JankenJudger'
+import {Judger, Observer} from './JunkenMaster/JankenMaster'
 import userEvent from '@testing-library/user-event'
 
 class StubP1WinsJanken implements Judger {

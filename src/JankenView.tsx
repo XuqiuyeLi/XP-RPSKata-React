@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent} from 'react';
 import './App.css';
-import {Judger, Observer} from './JankenJudger'
+import {Judger, Observer} from './JunkenMaster/JankenMaster'
 
 type JankenViewProps = {
   jankenJudger: Judger
