@@ -7,7 +7,7 @@ export interface Observer {
 
   displayHistoryEmpty(): void
 
-  displayHistory(history: any): void
+  displayHistory(history: Round[]): void
 }
 
 export interface Judger {
@@ -16,9 +16,20 @@ export interface Judger {
 
 export interface HistoryRepo {
   isEmpty(): boolean
-
-  getHistory(): any
+  getHistory(): Round[]
   save(): void
+}
+
+export class Round {
+  p1: string
+  p2: string
+  result: string
+
+  constructor(p1: string, p2: string, result: string) {
+    this.p1 = p1
+    this.p2 = p2
+    this.result = result
+  }
 }
 
 export class JankenJudger implements Judger{

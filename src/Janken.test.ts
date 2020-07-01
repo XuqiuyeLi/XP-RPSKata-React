@@ -1,11 +1,11 @@
-import {HistoryRepo, JankenJudger, Observer} from './JankenJudger'
+import {HistoryRepo, JankenJudger, Observer, Round} from './JankenJudger'
 
 class SpyObserver implements Observer {
   p1Wins_wasCalled = false
   p2Wins_wasCalled = false
   p1p2Tie_wasCalled = false
   displayHistoryEmpty_wasCalled = false
-  displayHistory_wasCalledWithHistory: any = false
+  displayHistory_wasCalledWithHistory: Round[] | boolean = false
 
   p1DidWin(): void {
     this.p1Wins_wasCalled = true
@@ -130,7 +130,7 @@ describe('Janken', () => {
         return true
       }
 
-      getHistory(): any {
+      getHistory(): Round[] {
         return [];
       }
 
@@ -143,10 +143,10 @@ describe('Janken', () => {
         return false;
       }
 
-      getHistory(): any {
+      getHistory(): Round[] {
         return [
-          {p1: 'rock', p2: 'scissors', result: 'p1Wins'},
-          {p1: 'rock', p2: 'rock', result: 'p1P2Tie'}
+          new Round('rock','scissors','p1Wins'),
+          new Round('rock','rock','p1P2Tie')
         ]
       }
 
@@ -175,8 +175,8 @@ describe('Janken', () => {
 
 
       expect(observer.displayHistory_wasCalledWithHistory).toEqual([
-        {p1: 'rock', p2: 'scissors', result: 'p1Wins'},
-        {p1: 'rock', p2: 'rock', result: 'p1P2Tie'}
+        new Round('rock','scissors','p1Wins'),
+        new Round('rock','rock','p1P2Tie')
       ])
       expect(observer.displayHistoryEmpty_wasCalled).toBe(false)
     })
