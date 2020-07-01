@@ -10,11 +10,8 @@ export interface Observer {
   displayHistory(history: Round[]): void
 }
 
-export interface Judger {
+export interface Master {
   judge(p1: string, p2: string, observer: Observer): void
-}
-
-export interface HistoryLoader {
   loadHistory(observer: Observer, repo: HistoryRepo): void
 }
 
@@ -36,7 +33,7 @@ export class Round {
   }
 }
 
-export class JankenMaster implements Judger, HistoryLoader {
+export class JankenMaster implements Master {
   judge(p1: string, p2: string, observer: Observer) {
     if (p1 === p2) {
       observer.p1p2Tie()

@@ -1,15 +1,17 @@
 import React, {ChangeEvent, FormEvent} from 'react';
 import './App.css';
-import {Judger, Observer} from './JunkenMaster/JankenMaster'
+import {Master, Observer, Round} from './JunkenMaster/JankenMaster'
 
 type JankenViewProps = {
-  jankenJudger: Judger
+  jankenMaster: Master
 }
 
 type JankenViewState = {
-  p1: string
-  p2: string
-  result: string
+  p1: string,
+  p2: string,
+  result: string,
+  historyMessage: string,
+  history: Round[]
 }
 
 class JankenView extends React.Component<JankenViewProps, JankenViewState> implements Observer {
@@ -18,13 +20,19 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
     this.state = {
       p1: '',
       p2: '',
-      result: ''
+      result: '',
+      historyMessage: '',
+      history: []
     }
+  }
+
+  componentDidMount(): void {
+    // アプリロード時にデータをロードする
   }
 
   handleJakenGameSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    this.props.jankenJudger.judge(this.state.p1, this.state.p2, this)
+    this.props.jankenMaster.judge(this.state.p1, this.state.p2, this)
   }
 
   p1DidWin(): void {
@@ -37,6 +45,12 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
 
   p2Wins(): void {
     this.setState({result: 'Player 2 Wins!'})
+  }
+
+  displayHistory(history: Round[]): void {
+  }
+
+  displayHistoryEmpty(): void {
   }
 
   render() {
