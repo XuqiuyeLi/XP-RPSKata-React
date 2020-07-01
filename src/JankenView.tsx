@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import './App.css';
 import {Judger, Observer} from './JankenJudger'
 
@@ -22,8 +22,9 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
     }
   }
 
-  playButtonClicked() {
-    this.props.jankenJudger.judge('', '', this)
+  handleJakenGameSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    this.props.jankenJudger.judge(this.state.p1, this.state.p2, this)
   }
 
   p1Wins(): void {
@@ -42,7 +43,7 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
     return (
       <div className="App">
         <h1>Janken Game</h1>
-        <form>
+        <form onSubmit={(event) => this.handleJakenGameSubmit(event)}>
           <label>
             Player 1:
             <input type="text" onChange={(event => this.handleP1Input(event))}/>
@@ -51,8 +52,9 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
             Player 2:
             <input type="text" onChange={(event => this.handleP2Input(event))}/>
           </label>
-          <button onClick={() => this.playButtonClicked()}>Play</button>
+          <button type="submit">Play</button>
         </form>
+
         <div>{this.state.result}</div>
       </div>
     )

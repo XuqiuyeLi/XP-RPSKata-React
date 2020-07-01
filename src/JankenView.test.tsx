@@ -31,7 +31,7 @@ class SpyJanken implements Judger {
   judge(p1: string, p2: string, observer: Observer): void {
     this.judgeWasCalled = true
     this.p1 = p1
-    this.p2 = p1
+    this.p2 = p2
   }
 }
 
