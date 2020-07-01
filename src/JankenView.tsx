@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css';
-import {Judger, Observer} from './Janken'
+import {Judger, Observer} from './JankenJudger'
 
 type JankenViewProps = {
-  janken: Judger
+  jankenJudger: Judger
 }
 
 type JankenViewState = {
+  p1: string
+  p2: string
   result: string
 }
 
@@ -14,12 +16,14 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
   constructor(props: JankenViewProps) {
     super(props);
     this.state = {
+      p1: '',
+      p2: '',
       result: ''
     }
   }
 
   playButtonClicked() {
-    this.props.janken.judge('', '', this)
+    this.props.jankenJudger.judge('', '', this)
   }
 
   p1Wins(): void {
@@ -27,19 +31,39 @@ class JankenView extends React.Component<JankenViewProps, JankenViewState> imple
   }
 
   p1p2Tie(): void {
+    this.setState({result: 'Tie!'})
   }
 
   p2Wins(): void {
+    this.setState({result: 'Player 2 Wins!'})
   }
 
   render() {
     return (
       <div className="App">
         <h1>Janken Game</h1>
-        <button onClick={() => this.playButtonClicked()}>Play</button>
+        <form>
+          <label>
+            Player 1:
+            <input type="text" onChange={(event => this.handleP1Input(event))}/>
+          </label>
+          <label>
+            Player 2:
+            <input type="text" onChange={(event => this.handleP2Input(event))}/>
+          </label>
+          <button onClick={() => this.playButtonClicked()}>Play</button>
+        </form>
         <div>{this.state.result}</div>
       </div>
     )
+  }
+
+  private handleP1Input(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({p1: event.target.value})
+  }
+
+  private handleP2Input(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({p2: event.target.value})
   }
 }
 

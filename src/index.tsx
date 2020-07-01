@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import JankenView from './JankenView';
 import * as serviceWorker from './serviceWorker';
+import {JankenJudger} from './JankenJudger'
 
 ReactDOM.render(
   <React.StrictMode>
-    <JankenView />
+    <JankenView jankenJudger={new JankenJudger()}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
